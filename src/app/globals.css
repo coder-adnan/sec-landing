@@ -154,3 +154,20 @@
     transform: translate(-50%, -50%);
   }
 }
+@media screen and (min-height: 1620px) and (max-height: 1620px) and (min-width: 2160px) and (max-width: 2160px) {
+  .bg_shape {
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Move down 50% from the top */
+    left: 50%; /* Move right 50% from the left */
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-height: 2160px) and (max-height: 2160px) and (min-width: 1620px) and (max-width: 1620px) {
+  .bg_shape {
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Move down 50% from the top */
+    left: 50%; /* Move right 50% from the left */
+    transform: translate(-50%, -50%);
+  }
+}
