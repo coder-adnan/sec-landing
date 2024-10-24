@@ -119,8 +119,34 @@
   }
 }
 
-@media screen and (min-width: 1366px) and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1024px),
-  screen and (min-height: 1024px) and (max-height: 1024px) and (min-width: 1366px) and (max-width: 1366px) {
+@media screen and (min-width: 1366px) and (max-width: 1366px) and (min-height: 1024px) and (max-height: 1024px) {
+  .bg_shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1024px) and (min-height: 1366px) and (max-height: 1366px) {
+  .bg_shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-width: 1180px) and (max-width: 1180px) and (min-height: 820px) and (max-height: 820px) {
+  .bg_shape {
+    position: absolute; /* Use absolute positioning */
+    top: 50%; /* Move down 50% from the top */
+    left: 50%; /* Move right 50% from the left */
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media screen and (min-height: 1180px) and (max-height: 1180px) and (min-width: 820px) and (max-width: 820px) {
   .bg_shape {
     position: absolute; /* Use absolute positioning */
     top: 50%; /* Move down 50% from the top */
