@@ -4,69 +4,56 @@ import bg_image from "../assets/bg_img.png";
 import shadow_img from "../assets/shadow.png";
 import bg_shape from "../assets/bg_shape.png";
 import logo_white from "../assets/logo_white.png";
+import styles from "./LandingPage.module.css";
 
 const LandingPage = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [showVideo, setShowVideo] = useState(true);
 
-  // Function to handle exiting fullscreen and showing the design
   const handleFullScreenChange = () => {
     if (!document.fullscreenElement) {
-      setShowVideo(false); // Hide the video
+      setShowVideo(false);
     }
   };
 
-  // Function to handle keydown events
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
-      setShowVideo(false); // Hide the video when Escape is pressed
+      setShowVideo(false);
       if (videoRef.current) {
-        videoRef.current.pause(); // Pause the video
+        videoRef.current.pause();
       }
     }
   };
 
-  // Function to check screen size and set initial video state
   const checkScreenSize = () => {
-    if (window.innerWidth >= 1024) {
-      // Adjust the width threshold as needed
-      setShowVideo(true); // Show video on large devices
-    } else {
-      setShowVideo(false); // Hide video on tablets
-    }
+    setShowVideo(window.innerWidth >= 1024);
   };
 
-  // Auto-play video without waiting for interaction
   useEffect(() => {
-    checkScreenSize(); // Check screen size on initial render
+    checkScreenSize();
 
     const videoElement = videoRef.current;
     if (videoElement) {
-      videoElement.play(); // Auto-play video if shown
+      videoElement.play();
     }
 
-    // Attach fullscreen change listener
     document.addEventListener("fullscreenchange", handleFullScreenChange);
-    // Attach keydown event listener
     window.addEventListener("keydown", handleKeyDown);
-    // Attach resize event listener
     window.addEventListener("resize", checkScreenSize);
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
-      window.removeEventListener("keydown", handleKeyDown); // Cleanup keydown event listener
-      window.removeEventListener("resize", checkScreenSize); // Cleanup resize event listener
     };
   }, []);
 
   return (
-    <div className="w-full h-full">
+    <div className={styles.container}>
       {/* Fullscreen Video - Plays on page visit */}
       {showVideo && (
         <video
           ref={videoRef}
           src="https://saudi-ec.eu-central-1.linodeobjects.com/sec_8_eng.mp4"
-          className="w-full h-full object-cover video"
+          className={styles.video}
           loop
           muted
           autoPlay
@@ -76,28 +63,24 @@ const LandingPage = () => {
 
       {/* Design that shows after exiting fullscreen */}
       {!showVideo && (
-        <div>
+        <div className={styles.overlay}>
           <Image
-            className="absolute top-10 right-10 z-50 logo"
+            className={styles.logo}
             src={logo_white}
             width={200}
             alt="Logo"
           />
-          <Image
-            src={bg_image}
-            alt="Background"
-            className="w-full h-full object-cover bg_image"
-          />
+          <Image src={bg_image} alt="Background" className={styles.bgImage} />
           <Image
             src={shadow_img}
             alt="Shadow Overlay"
-            className="w-full h-full object-cover opacity-60 absolute z-40 top-0 bg_shadow"
+            className={styles.shadowImage}
           />
-          <div>
+          <div className={styles.bgShapeWrapper}>
             <Image
               src={bg_shape}
-              alt="Center Shape"
-              className="absolute z-50 top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 bg_shape"
+              alt="Center Shape Fullscreen"
+              className={styles.bgShape}
             />
           </div>
         </div>
