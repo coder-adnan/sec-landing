@@ -19,59 +19,49 @@ const LandingPage = () => {
   const handleKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setShowVideo(false);
-      if (videoRef.current) {
-        videoRef.current.pause();
-      }
+      videoRef.current?.pause();
     }
   };
 
-  const checkScreenSize = () => {
-    setShowVideo(window.innerWidth >= 1024);
-  };
-
   useEffect(() => {
-    checkScreenSize();
-
     const videoElement = videoRef.current;
+    // Enable video for all devices
+    setShowVideo(true);
+
     if (videoElement) {
-      videoElement.play();
+      videoElement.play().catch((error) => {
+        // Fallback: Start playback on first user interaction
+        const playOnInteraction = () => {
+          videoElement.play();
+          document.removeEventListener("click", playOnInteraction);
+        };
+        document.addEventListener("click", playOnInteraction);
+      });
     }
 
     document.addEventListener("fullscreenchange", handleFullScreenChange);
     window.addEventListener("keydown", handleKeyDown);
-    window.addEventListener("resize", checkScreenSize);
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
-  // Bubble effect on click
   const handleClick = (event: React.MouseEvent) => {
     const bubblesContainer = document.getElementById("bubblesContainer");
-
     const bubble = document.createElement("div");
     bubble.className = styles.bubble;
-
-    // Position bubble at click location
-    bubble.style.left = `${event.clientX - 7.5}px`; // Center bubble horizontally
-    bubble.style.top = `${event.clientY - 7.5}px`; // Center bubble vertically
-
-    // Append bubble to container
+    bubble.style.left = `${event.clientX - 7.5}px`;
+    bubble.style.top = `${event.clientY - 7.5}px`;
     bubblesContainer?.appendChild(bubble);
-
-    // Remove bubble after animation ends
-    bubble.addEventListener("animationend", () => {
-      bubble.remove();
-    });
+    bubble.addEventListener("animationend", () => bubble.remove());
   };
 
   return (
     <div className={styles.container} onClick={handleClick}>
-      {/* Bubble effect container */}
       <div id="bubblesContainer" className={styles.bubblesContainer}></div>
 
-      {/* Fullscreen Video - Plays on page visit */}
       {showVideo && (
         <video
           ref={videoRef}
@@ -81,11 +71,10 @@ const LandingPage = () => {
           loop
           muted
           autoPlay
-          playsInline
+          playsInline // Essential for mobile compatibility
         />
       )}
 
-      {/* Design that shows after exiting fullscreen */}
       {!showVideo && (
         <div className={styles.overlay}>
           <Image
