@@ -25,12 +25,10 @@ const LandingPage = () => {
 
   useEffect(() => {
     const videoElement = videoRef.current;
-    // Enable video for all devices
     setShowVideo(true);
 
     if (videoElement) {
-      videoElement.play().catch((error) => {
-        // Fallback: Start playback on first user interaction
+      videoElement.play().catch(() => {
         const playOnInteraction = () => {
           videoElement.play();
           document.removeEventListener("click", playOnInteraction);
@@ -71,7 +69,7 @@ const LandingPage = () => {
           loop
           muted
           autoPlay
-          playsInline // Essential for mobile compatibility
+          playsInline
         />
       )}
 
@@ -95,6 +93,11 @@ const LandingPage = () => {
               alt="Center Shape Fullscreen"
               className={styles.bgShape}
             />
+          </div>
+          <div className="grid-container">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
           </div>
         </div>
       )}
